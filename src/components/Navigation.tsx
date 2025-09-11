@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Tv, Film, Menu, X, MessageCircle, Home, Plus, Music } from 'lucide-react';
+import { Tv, Film, Menu, X, MessageCircle, Home, Plus, Music, Bot } from 'lucide-react';
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +13,7 @@ export const Navigation = () => {
     { path: '/custom-channels', label: 'Custom Channels', icon: Plus },
     { path: '/movies', label: 'Movies', icon: Film },
     { path: '/music', label: 'Music', icon: Music },
+    { path: '/ai-assistant', label: 'AI Assistant', icon: Bot },
     { path: '/tv-series', label: 'TV Series', icon: Tv },
     { path: '/comments', label: 'Comments', icon: MessageCircle },
   ];

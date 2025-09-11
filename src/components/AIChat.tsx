@@ -1,0 +1,201 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { Send, Bot, User, Search } from 'lucide-react';
+
+interface Message {
+  id: string;
+  content: string;
+  isUser: boolean;
+  timestamp: Date;
+  hasSearchResults?: boolean;
+}
+
+export const AIChat = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [useSearch, setUseSearch] = useState(false);
+  const { toast } = useToast();
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if (scrollAreaRef.current) {
+      const scrollElement = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (scrollElement) {
+        scrollElement.scrollTop = scrollElement.scrollHeight;
+      }
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const sendMessage = async () => {
+    if (!input.trim() || isLoading) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      content: input.trim(),
+      isUser: true,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInput('');
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-chat', {
+        body: { 
+          message: userMessage.content,
+          useSearch 
+        }
+      });
+
+      if (error) throw error;
+
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: data.response,
+        isUser: false,
+        timestamp: new Date(),
+        hasSearchResults: data.hasSearchResults
+      };
+
+      setMessages(prev => [...prev, aiMessage]);
+    } catch (error: any) {
+      console.error('Chat error:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to get AI response",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  return (
+    <div className="w-full max-w-4xl mx-auto h-[600px] flex flex-col">
+      <Card className="flex-1 flex flex-col p-4">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            <Bot className="w-5 h-5" />
+            AI Assistant
+          </h2>
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="search-mode"
+              checked={useSearch}
+              onCheckedChange={setUseSearch}
+            />
+            <Label htmlFor="search-mode" className="flex items-center gap-1">
+              <Search className="w-4 h-4" />
+              Real-time Search
+            </Label>
+          </div>
+        </div>
+
+        <ScrollArea ref={scrollAreaRef} className="flex-1 pr-4">
+          <div className="space-y-4">
+            {messages.length === 0 && (
+              <div className="text-center text-muted-foreground py-8">
+                <Bot className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p>Start a conversation with the AI assistant</p>
+                <p className="text-sm mt-2">Toggle real-time search for current information</p>
+              </div>
+            )}
+
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex gap-3 ${message.isUser ? 'justify-end' : 'justify-start'}`}
+              >
+                <div className={`flex gap-3 max-w-[80%] ${message.isUser ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    message.isUser 
+                      ? 'bg-primary text-primary-foreground' 
+                      : 'bg-secondary text-secondary-foreground'
+                  }`}>
+                    {message.isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                  </div>
+                  
+                  <div className={`rounded-lg px-4 py-2 ${
+                    message.isUser
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-secondary text-secondary-foreground'
+                  }`}>
+                    <div className="whitespace-pre-wrap text-sm">
+                      {message.content}
+                    </div>
+                    {message.hasSearchResults && (
+                      <div className="flex items-center gap-1 mt-2 text-xs opacity-70">
+                        <Search className="w-3 h-3" />
+                        <span>Included web search results</span>
+                      </div>
+                    )}
+                    <div className="text-xs opacity-70 mt-1">
+                      {message.timestamp.toLocaleTimeString()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {isLoading && (
+              <div className="flex gap-3 justify-start">
+                <div className="flex gap-3 max-w-[80%]">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-secondary text-secondary-foreground">
+                    <Bot className="w-4 h-4" />
+                  </div>
+                  <div className="rounded-lg px-4 py-2 bg-secondary text-secondary-foreground">
+                    <div className="flex items-center gap-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                      <span className="text-sm">Thinking...</span>
+                      {useSearch && (
+                        <span className="text-xs opacity-70">(searching web)</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </ScrollArea>
+
+        <div className="flex gap-2 mt-4">
+          <Input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Type your message..."
+            disabled={isLoading}
+            className="flex-1"
+          />
+          <Button 
+            onClick={sendMessage} 
+            disabled={!input.trim() || isLoading}
+            size="icon"
+          >
+            <Send className="w-4 h-4" />
+          </Button>
+        </div>
+      </Card>
+    </div>
+  );
+};

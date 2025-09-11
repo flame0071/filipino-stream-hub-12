@@ -14,6 +14,7 @@ import TVSeries from "./pages/TVSeries";
 import Comments from "./pages/Comments";
 import Music from "./pages/Music";
 import SpotifyCallback from "./pages/SpotifyCallback";
+import AIAssistant from "./pages/AIAssistant";
 import NotFound from "./pages/NotFound";
 import { disableDevTools } from "./utils/disableDevTools";
 import { useEffect } from "react";
@@ -43,6 +44,7 @@ const App = () => {
           <Route path="/tv-series" element={<TVSeries />} />
           <Route path="/comments" element={<Comments />} />
           <Route path="/music" element={<Music />} />
+          <Route path="/ai-assistant" element={<AIAssistant />} />
           <Route path="/spotify/callback" element={<SpotifyCallback />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
