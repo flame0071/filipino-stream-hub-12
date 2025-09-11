@@ -5,9 +5,10 @@ import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Send, Bot, User, Search } from 'lucide-react';
+import { Send, Bot, User, Search, Sparkles } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -15,6 +16,7 @@ interface Message {
   isUser: boolean;
   timestamp: Date;
   hasSearchResults?: boolean;
+  aiModel?: 'openai' | 'gemini';
 }
 
 export const AIChat = () => {
@@ -22,6 +24,7 @@ export const AIChat = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [useSearch, setUseSearch] = useState(false);
+  const [aiModel, setAiModel] = useState<'openai' | 'gemini'>('openai');
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -52,8 +55,10 @@ export const AIChat = () => {
     setInput('');
     setIsLoading(true);
 
+    const functionName = aiModel === 'gemini' ? 'gemini-chat' : 'ai-chat';
+
     try {
-      const { data, error } = await supabase.functions.invoke('ai-chat', {
+      const { data, error } = await supabase.functions.invoke(functionName, {
         body: { 
           message: userMessage.content,
           useSearch 
@@ -67,7 +72,8 @@ export const AIChat = () => {
         content: data.response,
         isUser: false,
         timestamp: new Date(),
-        hasSearchResults: data.hasSearchResults
+        hasSearchResults: data.hasSearchResults,
+        aiModel
       };
 
       setMessages(prev => [...prev, aiMessage]);
@@ -98,16 +104,36 @@ export const AIChat = () => {
             <Bot className="w-5 h-5" />
             AI Assistant
           </h2>
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="search-mode"
-              checked={useSearch}
-              onCheckedChange={setUseSearch}
-            />
-            <Label htmlFor="search-mode" className="flex items-center gap-1">
-              <Search className="w-4 h-4" />
-              Real-time Search
-            </Label>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="ai-model" className="text-sm">Model:</Label>
+              <Select value={aiModel} onValueChange={(value: 'openai' | 'gemini') => setAiModel(value)}>
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="openai" className="flex items-center gap-2">
+                    <Bot className="w-4 h-4" />
+                    OpenAI
+                  </SelectItem>
+                  <SelectItem value="gemini" className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" />
+                    Gemini
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="search-mode"
+                checked={useSearch}
+                onCheckedChange={setUseSearch}
+              />
+              <Label htmlFor="search-mode" className="flex items-center gap-1">
+                <Search className="w-4 h-4" />
+                Real-time Search
+              </Label>
+            </div>
           </div>
         </div>
 
@@ -117,7 +143,7 @@ export const AIChat = () => {
               <div className="text-center text-muted-foreground py-8">
                 <Bot className="w-12 h-12 mx-auto mb-4 opacity-50" />
                 <p>Start a conversation with the AI assistant</p>
-                <p className="text-sm mt-2">Toggle real-time search for current information</p>
+                <p className="text-sm mt-2">Choose between OpenAI or Gemini and toggle real-time search for current information</p>
               </div>
             )}
 
@@ -130,15 +156,20 @@ export const AIChat = () => {
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                     message.isUser 
                       ? 'bg-primary text-primary-foreground' 
-                      : 'bg-secondary text-secondary-foreground'
+                      : message.aiModel === 'gemini'
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
+                        : 'bg-secondary text-secondary-foreground'
                   }`}>
-                    {message.isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                    {message.isUser ? <User className="w-4 h-4" /> : 
+                      message.aiModel === 'gemini' ? <Sparkles className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
                   </div>
                   
                   <div className={`rounded-lg px-4 py-2 ${
                     message.isUser
                       ? 'bg-primary text-primary-foreground'
-                      : 'bg-secondary text-secondary-foreground'
+                      : message.aiModel === 'gemini'
+                        ? 'bg-gradient-to-r from-blue-50 to-purple-50 text-gray-800 border border-blue-200'
+                        : 'bg-secondary text-secondary-foreground'
                   }`}>
                     <div className="whitespace-pre-wrap text-sm">
                       {message.content}
@@ -168,7 +199,7 @@ export const AIChat = () => {
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
                       <span className="text-sm">Thinking...</span>
                       {useSearch && (
-                        <span className="text-xs opacity-70">(searching web)</span>
+                        <span className="text-xs opacity-70">(searching web with {aiModel})</span>
                       )}
                     </div>
                   </div>
