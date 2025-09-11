@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      api_usage_log: {
+        Row: {
+          created_at: string
+          date_bucket: string
+          endpoint: string
+          id: string
+          ip_address: string | null
+          request_count: number | null
+          service: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          date_bucket?: string
+          endpoint: string
+          id?: string
+          ip_address?: string | null
+          request_count?: number | null
+          service?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          date_bucket?: string
+          endpoint?: string
+          id?: string
+          ip_address?: string | null
+          request_count?: number | null
+          service?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       comments: {
         Row: {
           created_at: string
@@ -97,6 +130,42 @@ export type Database = {
           updated_at?: string
           user_id?: string
           youtube_channel_id?: string | null
+        }
+        Relationships: []
+      }
+      fallback_opm_videos: {
+        Row: {
+          category: string | null
+          channel_title: string
+          created_at: string
+          duration: string | null
+          id: string
+          is_active: boolean | null
+          thumbnail_url: string
+          title: string
+          video_id: string
+        }
+        Insert: {
+          category?: string | null
+          channel_title: string
+          created_at?: string
+          duration?: string | null
+          id?: string
+          is_active?: boolean | null
+          thumbnail_url: string
+          title: string
+          video_id: string
+        }
+        Update: {
+          category?: string | null
+          channel_title?: string
+          created_at?: string
+          duration?: string | null
+          id?: string
+          is_active?: boolean | null
+          thumbnail_url?: string
+          title?: string
+          video_id?: string
         }
         Relationships: []
       }
@@ -247,6 +316,30 @@ export type Database = {
           poster_path?: string | null
           title?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      youtube_search_cache: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          query: string
+          results: Json
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          query: string
+          results: Json
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          query?: string
+          results?: Json
         }
         Relationships: []
       }
