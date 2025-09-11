@@ -8,7 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Send, Bot, User, Search, Sparkles } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Send, Bot, User, Search, Sparkles, Trash2 } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -27,6 +28,7 @@ export const AIChat = () => {
   const [aiModel, setAiModel] = useState<'openai' | 'gemini'>('openai');
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   const scrollToBottom = () => {
     if (scrollAreaRef.current) {
@@ -89,6 +91,14 @@ export const AIChat = () => {
     }
   };
 
+  const clearHistory = () => {
+    setMessages([]);
+    toast({
+      title: "Chat cleared",
+      description: "Chat history has been cleared",
+    });
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -97,18 +107,32 @@ export const AIChat = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto h-[600px] flex flex-col">
+    <div className={`w-full mx-auto flex flex-col ${isMobile ? 'h-[calc(100vh-8rem)]' : 'h-[600px] max-w-4xl'}`}>
       <Card className="flex-1 flex flex-col p-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold flex items-center gap-2">
-            <Bot className="w-5 h-5" />
-            AI Assistant
-          </h2>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center space-x-2">
+        <div className={`flex items-center justify-between mb-4 ${isMobile ? 'flex-col gap-4' : ''}`}>
+          <div className="flex items-center justify-between w-full">
+            <h2 className={`font-semibold flex items-center gap-2 ${isMobile ? 'text-lg' : 'text-xl'}`}>
+              <Bot className="w-5 h-5" />
+              AI Assistant
+            </h2>
+            {messages.length > 0 && (
+              <Button
+                variant="outline"
+                size={isMobile ? "sm" : "default"}
+                onClick={clearHistory}
+                className="flex items-center gap-2"
+              >
+                <Trash2 className="w-4 h-4" />
+                {!isMobile && "Clear"}
+              </Button>
+            )}
+          </div>
+          
+          <div className={`flex items-center gap-4 ${isMobile ? 'flex-col w-full gap-3' : ''}`}>
+            <div className={`flex items-center space-x-2 ${isMobile ? 'w-full justify-between' : ''}`}>
               <Label htmlFor="ai-model" className="text-sm">Model:</Label>
               <Select value={aiModel} onValueChange={(value: 'openai' | 'gemini') => setAiModel(value)}>
-                <SelectTrigger className="w-32">
+                <SelectTrigger className={isMobile ? "w-24" : "w-32"}>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -123,7 +147,7 @@ export const AIChat = () => {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className={`flex items-center space-x-2 ${isMobile ? 'w-full justify-between' : ''}`}>
               <Switch
                 id="search-mode"
                 checked={useSearch}
@@ -131,28 +155,28 @@ export const AIChat = () => {
               />
               <Label htmlFor="search-mode" className="flex items-center gap-1">
                 <Search className="w-4 h-4" />
-                Real-time Search
+                {isMobile ? "Search" : "Real-time Search"}
               </Label>
             </div>
           </div>
         </div>
 
-        <ScrollArea ref={scrollAreaRef} className="flex-1 pr-4">
+        <ScrollArea ref={scrollAreaRef} className={`flex-1 ${isMobile ? 'pr-2' : 'pr-4'}`}>
           <div className="space-y-4">
             {messages.length === 0 && (
-              <div className="text-center text-muted-foreground py-8">
+              <div className={`text-center text-muted-foreground py-8 ${isMobile ? 'px-4' : ''}`}>
                 <Bot className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>Start a conversation with the AI assistant</p>
-                <p className="text-sm mt-2">Choose between OpenAI or Gemini and toggle real-time search for current information</p>
+                <p className={isMobile ? 'text-sm' : ''}>Start a conversation with the AI assistant</p>
+                <p className={`text-sm mt-2 ${isMobile ? 'text-xs' : ''}`}>Choose between OpenAI or Gemini and toggle real-time search for current information</p>
               </div>
             )}
 
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex gap-3 ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                className={`flex gap-3 ${message.isUser ? 'justify-end' : 'justify-start'} ${isMobile ? 'px-2' : ''}`}
               >
-                <div className={`flex gap-3 max-w-[80%] ${message.isUser ? 'flex-row-reverse' : 'flex-row'}`}>
+                <div className={`flex gap-3 ${isMobile ? 'max-w-[90%]' : 'max-w-[80%]'} ${message.isUser ? 'flex-row-reverse' : 'flex-row'}`}>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                     message.isUser 
                       ? 'bg-primary text-primary-foreground' 
@@ -189,8 +213,8 @@ export const AIChat = () => {
             ))}
 
             {isLoading && (
-              <div className="flex gap-3 justify-start">
-                <div className="flex gap-3 max-w-[80%]">
+              <div className={`flex gap-3 justify-start ${isMobile ? 'px-2' : ''}`}>
+                <div className={`flex gap-3 ${isMobile ? 'max-w-[90%]' : 'max-w-[80%]'}`}>
                   <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-secondary text-secondary-foreground">
                     <Bot className="w-4 h-4" />
                   </div>
