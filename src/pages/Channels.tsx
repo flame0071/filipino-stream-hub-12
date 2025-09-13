@@ -6,7 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useCustomChannels } from '@/hooks/useCustomChannels';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Eye, EyeOff } from 'lucide-react';
+import { Search, Eye, EyeOff, Facebook } from 'lucide-react';
 
 const Channels = () => {
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(null);
@@ -152,9 +152,19 @@ const Channels = () => {
           <p className="text-sm text-muted-foreground">
             flameiptv
           </p>
-          <div className="mt-3 p-3 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg border border-primary/20">
+          <div className="mt-3 p-3 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg border border-primary/20 max-w-md mx-auto">
             <p className="text-sm font-medium text-primary">💰 GCASH: 09310799262</p>
             <p className="text-xs text-muted-foreground mt-1">Support the stream</p>
+            <div className="mt-2 flex justify-center">
+              <a 
+                href="https://www.facebook.com/share/1FJiMs1jEJ/"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 transition-colors"
+              >
+                <Facebook size={20} />
+              </a>
+            </div>
           </div>
         </div>
       </footer>
