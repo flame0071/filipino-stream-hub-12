@@ -16,6 +16,7 @@ interface Comment {
   created_at: string;
   user_id: string;
   reply_to?: string | null;
+  facebook_link?: string | null;
   replies?: Comment[];
 }
 
@@ -26,6 +27,7 @@ interface UserRole {
 const Comments = () => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [message, setMessage] = useState('');
+  const [facebookLink, setFacebookLink] = useState('');
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -96,7 +98,7 @@ const Comments = () => {
   const loadComments = async () => {
     const { data, error } = await supabase
       .from('comments')
-      .select('id, name, message, created_at, user_id, reply_to')
+      .select('id, name, message, created_at, user_id, reply_to, facebook_link')
       .order('created_at', { ascending: false });
 
     if (!error && data) {
@@ -207,6 +209,10 @@ const Comments = () => {
         user_id: user.id,
       };
 
+      if (facebookLink.trim()) {
+        insertData.facebook_link = facebookLink.trim();
+      }
+
       if (replyTo) {
         insertData.reply_to = replyTo;
       }
@@ -218,6 +224,7 @@ const Comments = () => {
       if (error) throw error;
       
       setMessage('');
+      setFacebookLink('');
       setReplyTo(null);
       setReplyToName(null);
       loadComments(); // Reload comments
@@ -403,6 +410,15 @@ const Comments = () => {
                       className="w-full"
                     />
                   </div>
+                  <div>
+                    <Input
+                      type="url"
+                      placeholder="Facebook link (optional)"
+                      value={facebookLink}
+                      onChange={(e) => setFacebookLink(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
                   <Button type="submit" disabled={loading} className="w-full">
                     <Send className="w-4 h-4 mr-2" />
                     {loading ? 'Posting...' : (replyTo ? 'Post Reply' : 'Post Comment')}
@@ -475,6 +491,21 @@ const Comments = () => {
                             </div>
                           </div>
                           <p className="text-foreground whitespace-pre-wrap break-words text-sm sm:text-base">{comment.message}</p>
+                          {comment.facebook_link && (
+                            <div className="mt-2">
+                              <a 
+                                href={comment.facebook_link} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="text-primary hover:text-primary/80 text-sm flex items-center gap-1"
+                              >
+                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                View Facebook Post
+                              </a>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </CardContent>
@@ -515,6 +546,21 @@ const Comments = () => {
                                   </div>
                                 </div>
                                 <p className="text-foreground text-sm whitespace-pre-wrap break-words">{reply.message}</p>
+                                {reply.facebook_link && (
+                                  <div className="mt-1">
+                                    <a 
+                                      href={reply.facebook_link} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="text-primary hover:text-primary/80 text-xs flex items-center gap-1"
+                                    >
+                                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                      </svg>
+                                      Facebook
+                                    </a>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </CardContent>
