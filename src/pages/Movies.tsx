@@ -5,6 +5,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Search, Filter, Shield } from 'lucide-react';
 import { MovieCard } from '@/components/MovieCard';
 import { VideoModal } from '@/components/VideoModal';
+import { PromoPopup } from '@/components/PromoPopup';
 import { Movie, tmdbApi } from '@/lib/tmdb';
 import { useToast } from '@/hooks/use-toast';
 
@@ -79,6 +80,7 @@ const Movies = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <PromoPopup />
       {/* Header */}
       <header className="bg-gradient-hero shadow-elegant border-b border-primary/20 sticky top-0 z-40">
         <div className="container mx-auto px-4 py-6">

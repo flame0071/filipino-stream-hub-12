@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { ChannelGrid } from '@/components/ChannelGrid';
 import { VideoPlayer } from '@/components/VideoPlayer';
+import { PromoPopup } from '@/components/PromoPopup';
 import { channels, Channel } from '@/data/channels';
 import { useToast } from '@/hooks/use-toast';
 import { useCustomChannels } from '@/hooks/useCustomChannels';
@@ -70,6 +71,7 @@ const Channels = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <PromoPopup />
       {/* Search and Filter Section */}
       <div className="bg-card border-b border-border p-4">
         <div className="container mx-auto space-y-4">

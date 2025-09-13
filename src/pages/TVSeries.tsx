@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Search, Shield } from 'lucide-react';
 import { TVShowCard } from '@/components/TVShowCard';
 import { VideoModal } from '@/components/VideoModal';
+import { PromoPopup } from '@/components/PromoPopup';
 import { TVShow, Season, Episode, tmdbApi } from '@/lib/tmdb';
 import { useToast } from '@/hooks/use-toast';
 
@@ -120,6 +121,7 @@ const TVSeries = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <PromoPopup />
       {/* Header */}
       <header className="bg-gradient-hero shadow-elegant border-b border-primary/20 sticky top-0 z-40">
         <div className="container mx-auto px-4 py-6">
