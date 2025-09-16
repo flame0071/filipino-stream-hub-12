@@ -49,7 +49,16 @@ serve(async (req) => {
 
     const imageBlob = await response.blob();
     const imageBuffer = await imageBlob.arrayBuffer();
-    const imageBase64 = btoa(String.fromCharCode(...new Uint8Array(imageBuffer)));
+    
+    // Convert to base64 without stack overflow for large images
+    const bytes = new Uint8Array(imageBuffer);
+    let binary = '';
+    const chunkSize = 32768; // Process in chunks to avoid stack overflow
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      const chunk = bytes.slice(i, i + chunkSize);
+      binary += String.fromCharCode.apply(null, Array.from(chunk));
+    }
+    const imageBase64 = btoa(binary);
     const imageUrl = `data:image/jpeg;base64,${imageBase64}`;
     
     console.log('Image generated successfully');
