@@ -31,7 +31,7 @@ export const PromoPopup = () => {
               <p className="font-semibold text-primary">✩All Access 99 (smart & tnt user only)</p>
               <p className="text-muted-foreground">- 7GB all apps + 2GB FB</p>
               <p className="text-muted-foreground">- 15 days</p>
-              <p className="font-medium text-accent">• ₱65</p>
+              <p className="font-medium text-accent">• ₱55</p>
             </div>
             
             <div className="p-3 bg-background/50 rounded border border-border/50">
@@ -39,7 +39,7 @@ export const PromoPopup = () => {
               <p className="text-muted-foreground">- 10GB data + unli FB/TikTok</p>
               <p className="text-muted-foreground">- Unli call & text</p>
               <p className="text-muted-foreground">- 7 days</p>
-              <p className="font-medium text-accent">•₱65</p>
+              <p className="font-medium text-accent">•₱55</p>
             </div>
             
             <div className="p-3 bg-background/50 rounded border border-border/50">
@@ -47,7 +47,7 @@ export const PromoPopup = () => {
               <p className="text-muted-foreground">- 6GB + unli FB, ML, TikTok</p>
               <p className="text-muted-foreground">- Unli call & text</p>
               <p className="text-muted-foreground">- 7 days</p>
-              <p className="font-medium text-accent">• ₱65</p>
+              <p className="font-medium text-accent">• ₱55</p>
             </div>
             
             <div className="p-3 bg-background/50 rounded border border-border/50">
@@ -56,7 +56,7 @@ export const PromoPopup = () => {
               <p className="text-muted-foreground">- Unli FB/TikTok</p>
               <p className="text-muted-foreground">- Unli call & text</p>
               <p className="text-muted-foreground">- 7 days</p>
-              <p className="font-medium text-accent">• ₱145</p>
+              <p className="font-medium text-accent">• ₱135</p>
             </div>
             
             <div className="p-3 bg-background/50 rounded border border-border/50">
@@ -65,7 +65,7 @@ export const PromoPopup = () => {
               <p className="text-muted-foreground">- Unli FB/TikTok/MLBB</p>
               <p className="text-muted-foreground">- Unli call & text</p>
               <p className="text-muted-foreground">- 7 days</p>
-              <p className="font-medium text-accent">• ₱145</p>
+              <p className="font-medium text-accent">• ₱135</p>
             </div>
             
             <div className="p-3 bg-background/50 rounded border border-border/50">
@@ -73,7 +73,7 @@ export const PromoPopup = () => {
               <p className="text-muted-foreground">- 3gb all apps & sites</p>
               <p className="text-muted-foreground">- Unli call & text</p>
               <p className="text-muted-foreground">- 3 days</p>
-              <p className="font-medium text-accent">• ₱45</p>
+              <p className="font-medium text-accent">• ₱35</p>
             </div>
           </div>
           
