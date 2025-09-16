@@ -1,7 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+const huggingfaceApiKey = Deno.env.get('HUGGINGFACE_API_KEY');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -15,11 +15,11 @@ serve(async (req) => {
   }
 
   try {
-    if (!openAIApiKey) {
-      throw new Error('OpenAI API key not configured');
+    if (!huggingfaceApiKey) {
+      throw new Error('Hugging Face API key not configured');
     }
 
-    const { prompt, size = "1024x1024", quality = "standard" } = await req.json();
+    const { prompt } = await req.json();
 
     if (!prompt) {
       throw new Error('Prompt is required');
@@ -27,33 +27,35 @@ serve(async (req) => {
 
     console.log('Generating image with prompt:', prompt);
 
-    const response = await fetch('https://api.openai.com/v1/images/generations', {
+    const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
+        'Authorization': `Bearer ${huggingfaceApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'dall-e-3',
-        prompt: prompt,
-        n: 1,
-        size: size,
-        quality: quality,
-        response_format: 'url'
+        inputs: prompt,
+        options: {
+          wait_for_model: true
+        }
       }),
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error('OpenAI API error:', errorData);
-      throw new Error(errorData.error?.message || 'Failed to generate image');
+      const errorText = await response.text();
+      console.error('Hugging Face API error:', errorText);
+      throw new Error('Failed to generate image');
     }
 
-    const data = await response.json();
+    const imageBlob = await response.blob();
+    const imageBuffer = await imageBlob.arrayBuffer();
+    const imageBase64 = btoa(String.fromCharCode(...new Uint8Array(imageBuffer)));
+    const imageUrl = `data:image/jpeg;base64,${imageBase64}`;
+    
     console.log('Image generated successfully');
 
     return new Response(JSON.stringify({ 
-      imageUrl: data.data[0].url,
+      imageUrl: imageUrl,
       prompt: prompt 
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
