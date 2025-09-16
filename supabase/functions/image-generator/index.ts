@@ -1,7 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const huggingfaceApiKey = Deno.env.get('HUGGINGFACE_API_KEY');
+const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -15,8 +15,8 @@ serve(async (req) => {
   }
 
   try {
-    if (!huggingfaceApiKey) {
-      throw new Error('Hugging Face API key not configured');
+    if (!geminiApiKey) {
+      throw new Error('Gemini API key not configured');
     }
 
     const { prompt } = await req.json();
@@ -25,41 +25,43 @@ serve(async (req) => {
       throw new Error('Prompt is required');
     }
 
-    console.log('Generating image with prompt:', prompt);
+    console.log('Generating image with Gemini prompt:', prompt);
 
-    const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0', {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${geminiApiKey}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${huggingfaceApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        inputs: prompt,
-        options: {
-          wait_for_model: true
+        contents: [{
+          parts: [{
+            text: prompt
+          }]
+        }],
+        generationConfig: {
+          responseMimeType: "image/jpeg"
         }
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Hugging Face API error:', errorText);
+      console.error('Gemini API error:', errorText);
       throw new Error('Failed to generate image');
     }
 
-    const imageBlob = await response.blob();
-    const imageBuffer = await imageBlob.arrayBuffer();
+    const data = await response.json();
     
-    // Convert to base64 without stack overflow for large images
-    const bytes = new Uint8Array(imageBuffer);
-    let binary = '';
-    const chunkSize = 32768; // Process in chunks to avoid stack overflow
-    for (let i = 0; i < bytes.length; i += chunkSize) {
-      const chunk = bytes.slice(i, i + chunkSize);
-      binary += String.fromCharCode.apply(null, Array.from(chunk));
+    if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
+      throw new Error('No image data received from Gemini API');
     }
-    const imageBase64 = btoa(binary);
-    const imageUrl = `data:image/jpeg;base64,${imageBase64}`;
+    
+    const imageData = data.candidates[0].content.parts[0].inlineData;
+    if (!imageData || !imageData.data) {
+      throw new Error('Invalid image data format from Gemini API');
+    }
+    
+    const imageUrl = `data:${imageData.mimeType};base64,${imageData.data}`;
     
     console.log('Image generated successfully');
 
