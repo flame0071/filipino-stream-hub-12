@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
+import { Clock } from './Clock';
 import { Tv, Film, Menu, X, MessageCircle, Home, Plus, Music, Bot } from 'lucide-react';
 
 export const Navigation = () => {
@@ -34,8 +35,10 @@ export const Navigation = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2">
+          {/* Clock and Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-4">
+            <Clock />
+            <div className="flex items-center gap-2">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -58,6 +61,7 @@ export const Navigation = () => {
                 </Button>
               );
             })}
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -74,6 +78,9 @@ export const Navigation = () => {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden mt-4 space-y-2">
+            <div className="flex justify-center mb-3">
+              <Clock />
+            </div>
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
