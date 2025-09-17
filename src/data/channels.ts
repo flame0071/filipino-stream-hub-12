@@ -14,7 +14,7 @@ export interface Channel {
 export const channels: Channel[] = [
   {
      name: 'A2Z',
-  manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_a2z.mpd',
+  manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_a2z/default/index.mpd',
   clearKey: {
     'f703e4c8ec9041eeb5028ab4248fa094': 'c22f2162e176eee6273a5d0b68d19530'
   },
