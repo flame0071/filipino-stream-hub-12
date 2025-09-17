@@ -64,39 +64,23 @@ export const channels: Channel[] = [
   logo: 'https://th.bing.com/th/id/OIP.EeF7fuBh0ASAdfYFigegbgHaE8?rs=1&pid=ImgDetMain'
 }, {
   name: 'AXN',
-  manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_axn_sd.mpd',
+  manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_axn_sd/default/index.mpd',
   clearKey: {
     'fd5d928f5d974ca4983f6e9295dfe410': '3aaa001ddc142fedbb9d5557be43792f'
   },
   type: 'mpd',
   logo: 'https://upload.wikimedia.org/wikipedia/commons/d/d0/AXN_Logo_2015.png'
 }, {
-  name: 'AXN Movies',
-  manifestUri: 'https://ott.zapitv.com/live/eds_c2/axn_white/dash_live_enc/axn_white.mpd',
-  clearKey: {
-    'f9e4be09926c262effa2b5381ae3553d': 'd630e04e0c5e3f98dc38840be1c1dd4c'
-  },
-  type: 'mpd',
-  logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/AXN_Movies_logo.jpg/220px-AXN_Movies_logo.jpg'
-}, {
   name: 'BBC Earth',
-  manifestUri: 'https://qp-pldt-live-grp-03-prod.akamaized.net/out/u/cg_bbcearth_hd1.mpd',
+  manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_bbcearth_hd1/default/index.mpd',
   clearKey: {
     '34ce95b60c424e169619816c5181aded': '0e2a2117d705613542618f58bf26fc8e'
   },
   type: 'mpd',
   logo: 'https://i.imgur.com/cvYi2Io.png'
 }, {
-  name: 'BBC Lifestyle',
-  manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/5050/default_ott.mpd',
-  clearKey: {
-    'f429292dc744f284355308561577ac10': 'b12e1f894129c517dc8845baaeebec8a'
-  },
-  type: 'mpd',
-  logo: 'https://banner2.cleanpng.com/20180618/wvf/kisspng-bbc-lifestyle-television-channel-broadcasting-life-style-5b27f0806b9a79.6524419015293441284408.jpg'
-}, {
   name: 'BBCWORLD News',
-  manifestUri: 'https://qp-pldt-live-grp-04-prod.akamaized.net/out/u/bbcworld_news_sd.mpd',
+  manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/bbcworld_news_sd/default/index.mpd',
   clearKey: {
     'f59650be475e4c34a844d4e2062f71f3': '119639e849ddee96c4cec2f2b6b09b40'
   },
@@ -109,7 +93,7 @@ export const channels: Channel[] = [
   logo: 'https://th.bing.com/th/id/OIP.JKBoiu3cX_PVMSwZLYFxCAHaHa?rs=1&pid=ImgDetMain'
 }, {
   name: 'Bilyonaryo',
-  manifestUri: 'https://qp-pldt-live-grp-05-prod.akamaized.net/out/u/bilyonaryoch.mpd',
+  manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/bilyonaryoch/default/index.mpd',
   clearKey: {
     '227ffaf09bec4a889e0e0988704d52a2': 'b2d0dce5c486891997c1c92ddaca2cd2'
   },
@@ -117,7 +101,7 @@ export const channels: Channel[] = [
   logo: 'https://th.bing.com/th/id/OIP.O2OG_59US0j-zqWyZwqhXAHaCH?rs=1&pid=ImgDetMain'
 }, {
   name: 'Bloomberg',
-  manifestUri: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/bloomberg_sd.mpd',
+  manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/bloomberg_sd/default/index.mpd',
   clearKey: {
     'ef7d9dcfb99b406cb79fb9f675cba426': 'b24094f6ca136af25600e44df5987af4'
   },
@@ -130,7 +114,7 @@ export const channels: Channel[] = [
   logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Boomerang_2014_logo.svg/1200px-Boomerang_2014_logo.svg.png'
 }, {
   name: 'BUKO',
-  manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_buko_sd.mpd',
+  manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_buko_sd/default/index.mpd',
   clearKey: {
     'd273c085f2ab4a248e7bfc375229007d': '7932354c3a84f7fc1b80efa6bcea0615'
   },
@@ -151,7 +135,7 @@ export const channels: Channel[] = [
   logo: 'https://tse1.mm.bing.net/th/id/OIP.e3EnrHl_y0kw59ySjxxmQAAAAA?rs=1&pid=ImgDetMain'
 }, {
  name: 'Celestial Movies Pinoy',
-  manifestUri: 'https://qp-pldt-live-grp-01-prod.akamaized.net/out/u/celmovie_pinoy_sd.mpd',
+  manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/celmovie_pinoy_sd/default/index.mpd',
   clearKey: {
     '0f8537d8412b11edb8780242ac120002': '2ffd7230416150fd5196fd7ea71c36f3'
   },
@@ -175,7 +159,7 @@ export const channels: Channel[] = [
   logo: 'https://yt3.ggpht.com/a-/AAuE7mAK5lTlRJwr2rZLeitoTnOYkjForU2cvszswQ=s900-mo-c-c0xffffffff-rj-k-no'
 }, {
   name: 'Cinemax',
-  manifestUri: 'https://qp-pldt-live-grp-01-prod.akamaized.net/out/u/cg_cinemax.mpd',
+  manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_cinemax/default/index.mpd',
   clearKey: {
     'b207c44332844523a3a3b0469e5652d7': 'fe71aea346db08f8c6fbf0592209f955'
   },
