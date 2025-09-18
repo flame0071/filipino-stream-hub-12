@@ -572,7 +572,7 @@ name: 'GMA (Youtube Stream)',
   logo: 'https://i.imgur.com/ZUZIt9s.png'
 }, {
   name: 'Premier Sports',
-  manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_ps_hd1/default/index.mpd,
+  manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_ps_hd1/default/index.mpd',
   clearKey: {
     'b8b595299fdf41c1a3481fddeb0b55e4': 'cd2b4ad0eb286239a4a022e6ca5fd007'
   },
