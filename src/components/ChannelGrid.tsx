@@ -6,11 +6,12 @@ interface ChannelGridProps {
   onChannelSelect: (channel: Channel) => void;
   onToggleHide?: (channelName: string) => void;
   onDelete?: (channelName: string) => void;
+  onEdit?: (channel: Channel) => void;
   hiddenChannels?: Set<string>;
   customChannels?: Channel[];
 }
 
-export const ChannelGrid = ({ channels, onChannelSelect, onToggleHide, onDelete, hiddenChannels, customChannels = [] }: ChannelGridProps) => {
+export const ChannelGrid = ({ channels, onChannelSelect, onToggleHide, onDelete, onEdit, hiddenChannels, customChannels = [] }: ChannelGridProps) => {
   if (channels.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -52,6 +53,7 @@ export const ChannelGrid = ({ channels, onChannelSelect, onToggleHide, onDelete,
             onClick={() => onChannelSelect(channel)}
             onToggleHide={onToggleHide}
             onDelete={onDelete}
+            onEdit={onEdit}
             isHidden={hiddenChannels?.has(channel.name)}
             isCustom={customChannels.some(customChannel => customChannel.name === channel.name)}
           />

@@ -2,17 +2,22 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { AddChannelForm } from '@/components/AddChannelForm';
+import { EditChannelForm } from '@/components/EditChannelForm';
 import { ChannelGrid } from '@/components/ChannelGrid';
 import { VideoPlayer } from '@/components/VideoPlayer';
 import { useCustomChannels } from '@/hooks/useCustomChannels';
+import { useUserRole } from '@/hooks/useUserRole';
 import { useToast } from '@/hooks/use-toast';
 import { Search, Plus, Tv } from 'lucide-react';
 import { Channel } from '@/data/channels';
 
 const CustomChannels = () => {
-  const { customChannels, isLoading, deleteCustomChannel } = useCustomChannels();
+  const { customChannels, isLoading, deleteCustomChannel, reloadChannels } = useCustomChannels();
+  const { isAdminOrModerator } = useUserRole();
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(null);
+  const [editingChannel, setEditingChannel] = useState<Channel | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
 
@@ -35,6 +40,23 @@ const CustomChannels = () => {
 
   const handleDeleteChannel = (channelName: string) => {
     deleteCustomChannel(channelName);
+  };
+
+  const handleEditChannel = (channel: Channel) => {
+    setEditingChannel(channel);
+  };
+
+  const handleEditComplete = () => {
+    setEditingChannel(null);
+    reloadChannels();
+    toast({
+      title: "Channel Updated",
+      description: "The channel has been successfully updated.",
+    });
+  };
+
+  const handleEditCancel = () => {
+    setEditingChannel(null);
   };
 
   if (isLoading) {
@@ -99,6 +121,7 @@ const CustomChannels = () => {
             channels={filteredChannels}
             onChannelSelect={handleChannelSelect}
             onDelete={handleDeleteChannel}
+            onEdit={isAdminOrModerator ? handleEditChannel : undefined}
             hiddenChannels={new Set()}
             customChannels={customChannels}
           />
@@ -157,6 +180,22 @@ const CustomChannels = () => {
             <AddChannelForm />
           </div>
         </section>
+
+        {/* Edit Channel Dialog */}
+        <Dialog open={!!editingChannel} onOpenChange={() => setEditingChannel(null)}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Edit Channel</DialogTitle>
+            </DialogHeader>
+            {editingChannel && (
+              <EditChannelForm
+                channel={editingChannel}
+                onChannelUpdated={handleEditComplete}
+                onCancel={handleEditCancel}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

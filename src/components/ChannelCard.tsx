@@ -2,18 +2,21 @@ import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Channel } from '@/data/channels';
-import { Play, EyeOff, Eye, Trash2 } from 'lucide-react';
+import { useUserRole } from '@/hooks/useUserRole';
+import { Play, EyeOff, Eye, Trash2, Edit } from 'lucide-react';
 
 interface ChannelCardProps {
   channel: Channel;
   onClick: () => void;
   onToggleHide?: (channelName: string) => void;
   onDelete?: (channelName: string) => void;
+  onEdit?: (channel: Channel) => void;
   isHidden?: boolean;
   isCustom?: boolean;
 }
 
-export const ChannelCard = ({ channel, onClick, onToggleHide, onDelete, isHidden, isCustom }: ChannelCardProps) => {
+export const ChannelCard = ({ channel, onClick, onToggleHide, onDelete, onEdit, isHidden, isCustom }: ChannelCardProps) => {
+  const { isAdminOrModerator } = useUserRole();
   return (
     <Card 
       className="bg-gradient-card hover:shadow-glow border-border/30 cursor-pointer group transition-spring overflow-hidden backdrop-blur-sm hover:border-primary/30"
@@ -82,6 +85,21 @@ export const ChannelCard = ({ channel, onClick, onToggleHide, onDelete, isHidden
                 ) : (
                   <Eye className="w-4 h-4 text-muted-foreground" />
                 )}
+              </Button>
+            )}
+            
+            {/* Edit Button (for admins on custom channels) */}
+            {isCustom && isAdminOrModerator && onEdit && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit(channel);
+                }}
+                className="h-8 w-8 p-0 hover:bg-primary/10 hover:text-primary"
+              >
+                <Edit className="w-4 h-4" />
               </Button>
             )}
             
