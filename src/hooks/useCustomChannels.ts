@@ -236,59 +236,10 @@ export const useCustomChannels = () => {
     }
   };
 
-  const updateCustomChannel = async (channelName: string, updatedData: Omit<CustomChannel, 'id' | 'user_id'>) => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (session?.user) {
-        // Update in Supabase
-        const { error } = await supabase
-          .from('custom_channels')
-          .update({
-            name: updatedData.name,
-            manifest_uri: updatedData.manifestUri,
-            type: updatedData.type,
-            logo: updatedData.logo,
-            embed_url: updatedData.embedUrl,
-            category: updatedData.category,
-            clear_key: updatedData.clearKey,
-          })
-          .eq('name', channelName);
-
-        if (error) {
-          console.error('Error updating channel in Supabase:', error);
-          throw error;
-        }
-      } else {
-        // Update in localStorage
-        const stored = localStorage.getItem('customChannels');
-        if (stored) {
-          const channels: CustomChannel[] = JSON.parse(stored);
-          const channelIndex = channels.findIndex(ch => ch.name === channelName);
-          
-          if (channelIndex !== -1) {
-            channels[channelIndex] = {
-              ...channels[channelIndex],
-              ...updatedData,
-            };
-            localStorage.setItem('customChannels', JSON.stringify(channels));
-          }
-        }
-      }
-
-      // Reload channels to reflect changes
-      await loadCustomChannels();
-    } catch (error) {
-      console.error('Error updating custom channel:', error);
-      throw error;
-    }
-  };
-
   return {
     customChannels,
     isLoading,
     addCustomChannel,
-    updateCustomChannel,
     deleteCustomChannel,
     reloadChannels: loadCustomChannels
   };
