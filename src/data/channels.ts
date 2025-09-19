@@ -213,15 +213,10 @@ export const channels: Channel[] = [
   type: 'mpd',
   logo: 'https://th.bing.com/th/id/OIP.MPPdJ1ObiLG4Q6MFEDQ4pAHaEH?rs=1&pid=ImgDetMain'
 }, {
-  name: 'Discovery Asia',
+ name: 'Discovery Asia',
   manifestUri: 'https://pull-hls-live.jr365m.cc/stream/astromalaysia/discoveryasia/master.m3u8',
   type: 'hls',
   logo: 'https://tse2.mm.bing.net/th/id/OIP.ErOXB9uaqKZMAXn3_yB-ygHaDK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
-}, {
-  name: 'Cinemax East',
-  manifestUri: 'https://v16.thetvapp.to/hls/CinemaxEast/tracks-v2a1/mono.m3u8?token=CotOpwVXiq41D2VhkjuXZA&expires=1758268335&user_id=Z1o5UXJFQzR6R2NZVzR1UzI0ZGsyNWpyVEpCUENTZkx6WEV2cGlDUw==',
-  type: 'hls',
-  logo: 'https://logos-download.com/wp-content/uploads/2016/05/Cinemax_logo_symbol.png'
 }, {
   name: 'Discovery Channel',
   manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/discovery/default/index.mpd',
