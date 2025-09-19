@@ -45,6 +45,14 @@ export const channels: Channel[] = [
   type: 'mpd',
   logo: 'https://i.imgur.com/VLlyHhT.png'
 }, {
+ name: 'Discovery Asia',
+  manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/501/default_ott.mpd',
+  clearKey: {
+    '3ff02fcd80c2e3230c52ae70fe903410': 'c3a58ec867cc25829e1fbe8938442553'
+  },
+  type: 'mpd',
+  logo: 'https://i.imgur.com/VLlyHhT.png'
+}, {
   name: 'Anime X Hidive',
   manifestUri: 'https://amc-anime-x-hidive-1-us.tablo.wurl.tv/playlist.m3u8',
   type: 'hls',
