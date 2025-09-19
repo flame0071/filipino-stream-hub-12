@@ -87,6 +87,11 @@ export const channels: Channel[] = [
   type: 'mpd',
   logo: 'https://th.bing.com/th/id/OIP.Dt6zbSEb8BztEMb1C93QHQHaHk?rs=1&pid=ImgDetMain'
 }, {
+  name: 'beIN Sports Xtra',
+  manifestUri: 'https:\\jmp2.uk\rok-bc932f13c31e542db6e3e6247e7131bc.m3u8',
+  type: 'hls',
+  logo: 'https://sportsmediareport.net/wp-content/uploads/2019/11/beIN-SPORTS-XTRA_LOGO.png'
+}, {
   name: 'Billiard TV',
   manifestUri: 'https://1b29dd71cd5e4191a3eb26afff631ed3.mediatailor.us-west-2.amazonaws.com/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/SportsTribal-BilliardTV/BILLIARDTV_SCTE.m3u8',
   type: 'hls',
@@ -107,11 +112,6 @@ export const channels: Channel[] = [
   },
   type: 'mpd',
   logo: 'https://th.bing.com/th/id/OIP.ayx_C9FL75IKjIl408wLagHaFj?rs=1&pid=ImgDetMain'
-}, {
-  name: 'BOOMERANG',
-  manifestUri: 'https://fl3.moveonjoy.com/BOOMERANG/index.m3u8',
-  type: 'hls',
-  logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Boomerang_2014_logo.svg/1200px-Boomerang_2014_logo.svg.png'
 }, {
   name: 'BUKO',
   manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_buko_sd/default/index.mpd',
@@ -181,6 +181,11 @@ export const channels: Channel[] = [
   },
   type: 'mpd',
   logo: 'https://www.sopasia.com/wp-content/uploads/2014/04/logo_Channel-NewsAsia-logo.jpg'
+}, {
+ name: 'Crunchyroll',
+  manifestUri: 'https:\\jmp2.uk\rok-307b3b9ea321539b9688148fc97a8bfd.m3u8',
+  type: 'hls',
+  logo: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglZPh8yMpPo38s9WLo5a9sOycdVQk1LSTO7Tet3l5AfIQQDRfzaM-dnF5SE1g4gXnd5Ydl5ICBMM5ugpN-3QnyXfRCV0cuyZrrvpcq1TTMpx2n1RcasG7jjCW5ZQpEw5vki0me68xF2RMdVZTXSB0BAOXh8XZcPRtkhHN2qmVCke-jxIYCJEnKxlVp5hUH/s1920/crunchyrollchanneltvlaint.jpg'
 }, {
   name: 'CNN INTERNATIONAL',
   manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_cnnhd/default/index.mpd',
@@ -457,10 +462,20 @@ name: 'GMA (Youtube Stream)',
   type: 'mpd',
   logo: 'https://i.imgur.com/5G72qjx.png'
 }, {
-  name: 'MovieSphere',
-  manifestUri: 'https://moviesphereuk-samsunguk.amagi.tv/playlist.m3u8',
+ name: 'Love Nature',
+  manifestUri: 'https:\\jmp2.uk\rok-479fe0d11f3f5132a3f36b617547da3b.m3u8',
   type: 'hls',
-  logo: 'https://yt3.googleusercontent.com/R4AIm13f3RZ5CPAFWuU8DRmpmtj6bne2S4n1K3RPvoJu3Nu5hpgbWcfD0VGMlz8CPPEJtN2T_g=s900-c-k-c0x00ffffff-no-rj'
+  logo: 'https://blueantmedia.com/wp-content/uploads/2020/01/love-nature_transparent.png'
+}, {
+ name: 'Moonbug',
+  manifestUri: 'https:\\jmp2.uk\rok-479fe0d11f3f5132a3f36b617547da3b.m3u8',
+  type: 'hls',
+  logo: 'https://blueantmedia.com/wp-content/uploads/2020/01/love-nature_transparent.png'
+}, {
+  name: 'MovieSphere',
+  manifestUri: 'https:\\jmp2.uk\rok-b5cde121f98257329346020e2a60295a.m3u8',
+  type: 'hls',
+  logo: 'https://mb.cision.com/Public/21926/3735591/a45b959f31d12b56_org.jpg'
 }, {
   name: 'MPTV',
   manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_mptv/default/index.mpd',
@@ -604,6 +619,21 @@ name: 'GMA (Youtube Stream)',
   manifestUri: 'https://dpp-qmusicnl-live.akamaized.net/streamx/QmusicNL.m3u8',
   type: 'hls',
   logo: 'https://th.bing.com/th/id/OIP.VIBKAVHEqSwJ_jojb9Mt7wHaFg?rs=1&pid=ImgDetMain'
+}, {
+name: 'Rakuten Viki',
+  manifestUri: 'https:\\jmp2.uk\rok-c4bdfe6fd751590e9d096b5de264bba1.m3u8',
+  type: 'hls',
+  logo: 'https://img.icons8.com/color/452/rakuten-viki.png'
+}, {
+name: 'Red Bull TV',
+  manifestUri: 'https:\\jmp2.uk\rok-c5e8a74546771de365652cd053f73351.m3u8',
+  type: 'hls',
+  logo: 'https://image.roku.com/blog/wp-content/uploads/2015/03/Red-Bull-TV-logo.png'
+}, {
+name: 'RetroCrush',
+  manifestUri: 'https:\\jmp2.uk\rok-72a54a3c7a3d5381a1baa223a5dc8d23.m3u8',
+  type: 'hls',
+  logo: 'https://www.awn.com/sites/default/files/styles/large_featured/public/image/featured/retro_crush-resized.jpg?itok=GtbLOAhz'
 }, {
   name: 'Rock Action',
   manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/dr_rockextreme/default/index.mpd',
