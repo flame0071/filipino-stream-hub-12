@@ -213,6 +213,11 @@ export const channels: Channel[] = [
   type: 'mpd',
   logo: 'https://th.bing.com/th/id/OIP.MPPdJ1ObiLG4Q6MFEDQ4pAHaEH?rs=1&pid=ImgDetMain'
 }, {
+ name: 'Discovery Asia',
+  manifestUri: 'https://pull-hls-live.jr365m.cc/stream/astromalaysia/discoveryasia/master.m3u8',
+  type: 'hls',
+  logo: 'https://tse2.mm.bing.net/th/id/OIP.ErOXB9uaqKZMAXn3_yB-ygHaDK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'
+}, {
   name: 'Discovery Channel',
   manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/discovery/default/index.mpd',
   clearKey: {
@@ -453,7 +458,7 @@ name: 'GMA (Youtube Stream)',
   logo: 'https://i.imgur.com/5G72qjx.png'
 }, {
   name: 'MovieSphere',
-  manifestUri: 'https://moviesphereuk-samsunguk.amagi.tv/360p-vtt/index.m3u8',
+  manifestUri: 'https://moviesphereuk-samsunguk.amagi.tv/playlist.m3u8',
   type: 'hls',
   logo: 'https://yt3.googleusercontent.com/R4AIm13f3RZ5CPAFWuU8DRmpmtj6bne2S4n1K3RPvoJu3Nu5hpgbWcfD0VGMlz8CPPEJtN2T_g=s900-c-k-c0x00ffffff-no-rj'
 }, {
@@ -479,7 +484,7 @@ name: 'GMA (Youtube Stream)',
   logo: 'https://logos-world.net/wp-content/uploads/2020/09/MTV-Logo-1981-2009.png'
 }, {
   name: 'MTV Live',
-  manifestUri: 'https://fl2.moveonjoy.com/MTV_LIVE/index.m3u8',
+  manifestUri: 'https://iptvproxy-five.vercel.app/api/hls?url=http://38b891c9.rossteleccom.net/iptv/4HP7GES799X3WU/221/index.m3u8',
   type: 'hls',
   logo: 'https://www.seekpng.com/png/detail/57-579021_file-mtv-live-svg-mtv-live-logo-png.png'
 }, {
