@@ -1,23 +1,34 @@
-import { useState, useMemo } from 'react';
+// src/pages/Channels.tsx
+
+import { useState, useMemo, useEffect } from 'react';
 import { ChannelGrid } from '@/components/ChannelGrid';
 import { VideoPlayer } from '@/components/VideoPlayer';
-import { PromoPopup } from '@/components/PromoPopup';
 import { channels, Channel } from '@/data/channels';
 import { useToast } from '@/hooks/use-toast';
-import { useCustomChannels } from '@/hooks/useCustomChannels';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Eye, EyeOff, Facebook } from 'lucide-react';
+import { Search, Eye, EyeOff } from 'lucide-react';
+import { DonateButton } from '@/components/DonateButton';
 
 const Channels = () => {
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [hiddenChannels, setHiddenChannels] = useState<Set<string>>(new Set());
   const [showHidden, setShowHidden] = useState(false);
-  const { customChannels, deleteCustomChannel } = useCustomChannels();
+  const [customChannels, setCustomChannels] = useState<Channel[]>([]);
   const { toast } = useToast();
 
-  // Combine static and custom channels
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('customChannels');
+      if (saved) {
+        setCustomChannels(JSON.parse(saved));
+      }
+    } catch (error) {
+      console.error('Error loading custom channels:', error);
+    }
+  }, []);
+
   const allChannels = useMemo(() => {
     return [...channels, ...customChannels];
   }, [customChannels]);
@@ -66,17 +77,35 @@ const Channels = () => {
   };
 
   const handleDeleteChannel = (channelName: string) => {
-    deleteCustomChannel(channelName);
+    try {
+      const updatedCustomChannels = customChannels.filter(channel => channel.name !== channelName);
+      localStorage.setItem('customChannels', JSON.stringify(updatedCustomChannels));
+      setCustomChannels(updatedCustomChannels);
+      
+      if (hiddenChannels.has(channelName)) {
+        const newHiddenChannels = new Set(hiddenChannels);
+        newHiddenChannels.delete(channelName);
+        setHiddenChannels(newHiddenChannels);
+      }
+      
+      toast({
+        title: "Channel Deleted",
+        description: `${channelName} has been removed from your channels`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete channel. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
     <div className="min-h-screen bg-background">
-      <PromoPopup />
-      {/* Search and Filter Section */}
       <div className="bg-card border-b border-border p-4">
         <div className="container mx-auto space-y-4">
           <div className="flex flex-col sm:flex-row gap-4">
-            {/* Search */}
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
@@ -87,7 +116,6 @@ const Channels = () => {
               />
             </div>
             
-            {/* Hide/Show Toggle */}
             <Button
               variant={showHidden ? "default" : "outline"}
               onClick={() => setShowHidden(!showHidden)}
@@ -111,7 +139,6 @@ const Channels = () => {
 
       <main className="container mx-auto px-4 py-6">
         <div className="flex flex-col lg:flex-row gap-6 min-h-[calc(100vh-200px)]">
-          {/* Video Player */}
           <div className="w-full lg:w-2/3 flex-shrink-0">
             <div className="sticky top-6">
               <VideoPlayer
@@ -121,7 +148,6 @@ const Channels = () => {
             </div>
           </div>
 
-          {/* Channel List */}
           <div className="w-full lg:w-1/3 space-y-4">
             <div className="flex items-center justify-between">
               <div>
@@ -148,16 +174,13 @@ const Channels = () => {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-border mt-12 py-8">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-muted-foreground">
             flameiptv
           </p>
-          
-          <div className="mt-6 p-3 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg border border-primary/20 max-w-md mx-auto">
-            <p className="text-sm font-medium text-primary">💰 GCASH: 09310799262</p>
-            <p className="text-xs text-muted-foreground mt-1">Support the stream</p>
+          <div className="mt-3">
+            <DonateButton />
           </div>
         </div>
       </footer>
