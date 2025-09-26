@@ -24,7 +24,7 @@ const queryClient = new QueryClient();
 const App = () => {
   useEffect(() => {
     // Initialize developer tools protection
-    disableDevTools();
+   // disableDevTools();
   }, []);
 
   return (
