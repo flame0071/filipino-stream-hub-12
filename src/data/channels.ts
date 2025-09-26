@@ -2,6 +2,7 @@ export interface Channel {
   name: string;
   manifestUri: string;
   clearKey?: Record<string, string>;
+  widevineUrl?: string; // For Widevine DRM license server
   type: 'mpd' | 'hls' | 'youtube';
   logo: string;
   embedUrl?: string;
@@ -9,11 +10,11 @@ export interface Channel {
   hidden?: boolean;
   youtubeChannelId?: string; // For detecting multiple streams
   hasMultipleStreams?: boolean; // Flag to indicate if channel has multiple streams
-  referer?: string;
+  referer?: string; // Custom referer header for requests
 }
 
 export const channels: Channel[] = [
-  {
+ {
      name: 'A2Z',
   manifestUri: 'https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_a2z/default/index.mpd',
   clearKey: {
@@ -260,7 +261,7 @@ export const channels: Channel[] = [
   logo: 'https://logos-world.net/wp-content/uploads/2020/12/DreamWorks-Animation-Logo.png'
 }, {
  name: 'ESPN',
-  manifestUri: 'https://iptvproxy-five.vercel.app/api/hls?url=http://41.205.93.154/ESPN/index.m3u8',
+  manifestUri: 'https://gtv.fflame143.workers.dev/stream.m3u8',
   type: 'hls',
   logo: 'https://th.bing.com/th/id/OIP.X0rfjwnmj1p_6q6OiYJS3wHaEK?rs=1&pid=ImgDetMain'
 }, {
@@ -389,6 +390,14 @@ name: 'GMA (Youtube Stream)',
   type: 'hls',
   logo: 'https://th.bing.com/th/id/OIP.MHyjJgpgcnoGypCLEIh9qAHaDH?rs=1&pid=ImgDetMain'
 }, {
+    name: 'IQIYI',
+  manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/1006/default_ott.mpd',
+  clearKey: {
+    '7ef7e913ce85a1131b27036069169a10': '77d98ed71db7524c27875a09a975f9e6'
+  },
+  type: 'mpd',
+  logo: 'https://i.pinimg.com/originals/28/43/e5/2843e5c36e847576f1e86e80f43e5384.jpg'
+}, {
   name: 'Jungo Pinoy tv',
   manifestUri: 'https://jungotvstream.chanall.tv/jungotv/jungopinoytv/stream.m3u8',
   type: 'hls',
@@ -432,7 +441,7 @@ name: 'GMA (Youtube Stream)',
   type: 'mpd',
   logo: 'https://th.bing.com/th/id/OIP.ix5ReWijxZg8uPcKrk2GHwHaGd?rs=1&pid=ImgDetMain'
 }, {
-name: 'KPlus1',
+name: 'KPlus',
   manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/9983/default_ott.mpd',
   clearKey: {
     'aa48b28bd723f91214887df6ed9fad10': 'b5a3a800848120c843ae0fa68c09c261'
@@ -482,14 +491,12 @@ name: 'KPlus1',
   type: 'mpd',
   logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Cinemax_%28Yellow%29.svg/1200px-Cinemax_%28Yellow%29.svg.png'
 }, {
-  name: 'MTV',
-  manifestUri: 'https://streamer1.nexgen.bz/MTV/index.m3u8',
-  type: 'hls',
-  logo: 'https://logos-world.net/wp-content/uploads/2020/09/MTV-Logo-1981-2009.png'
-}, {
   name: 'MTV Live',
-  manifestUri: 'https://iptvproxy-five.vercel.app/api/hls?url=http://38b891c9.rossteleccom.net/iptv/4HP7GES799X3WU/221/index.m3u8',
-  type: 'hls',
+  manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/5014/default_ott.mpd',
+  clearKey: {
+    '3ac2542a4f7be746633db07647451710': '22f964a6d6927ccdba482e775cdff190'
+  },
+  type: 'mpd',
   logo: 'https://www.seekpng.com/png/detail/57-579021_file-mtv-live-svg-mtv-live-logo-png.png'
 }, {
   name: 'NAT GEO WILD',
@@ -608,6 +615,11 @@ name: 'KPlus1',
   manifestUri: 'https://dpp-qmusicnl-live.akamaized.net/streamx/QmusicNL.m3u8',
   type: 'hls',
   logo: 'https://th.bing.com/th/id/OIP.VIBKAVHEqSwJ_jojb9Mt7wHaFg?rs=1&pid=ImgDetMain'
+}, {
+   name: 'Rakuten Viki',
+  manifestUri: 'https://fd18f1cadd404894a31a3362c5f319bd.mediatailor.us-east-1.amazonaws.com/v1/master/04fd913bb278d8775298c26fdca9d9841f37601f/RakutenTV-eu_RakutenViki-1/playlist.m3u8',
+  type: 'hls',
+  logo: 'https://tse1.mm.bing.net/th/id/OIP.14iQmo2HrOxiL10lttVslgAAAA?rs=1&pid=ImgDetMain&o=7&rm=3'
 }, {
   name: 'Rock Action',
   manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/dr_rockextreme/default/index.mpd',
@@ -814,7 +826,6 @@ name: 'KPlus1',
   type: 'mpd',
   logo: 'https://th.bing.com/th/id/OIP.8xIdcYektX82pKAdaXcQEgHaHr?rs=1&pid=ImgDetMain'
 }];
-
 export const categories = [
   'All',
   'Local',
