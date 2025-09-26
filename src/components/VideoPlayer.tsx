@@ -1,3 +1,5 @@
+// src/components/VideoPlayer.tsx
+
 import { useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Settings, List } from 'lucide-react';
@@ -30,6 +32,7 @@ export const VideoPlayer = ({ channel, onClose }: VideoPlayerProps) => {
   const [selectedQuality, setSelectedQuality] = useState<string>('auto');
   const [showStreamSelector, setShowStreamSelector] = useState(false);
   const [currentEmbedUrl, setCurrentEmbedUrl] = useState<string>('');
+  const [useProxy, setUseProxy] = useState(false); // New state for proxy
 
   useEffect(() => {
     // Load Shaka Player script dynamically
@@ -103,6 +106,13 @@ export const VideoPlayer = ({ channel, onClose }: VideoPlayerProps) => {
         // Create new player
         const player = new window.shaka.Player(videoRef.current);
         playerRef.current = player;
+        
+        const supabaseProjectId = "fdwinqxxqzybtanpxlbq";
+        let manifestUri = channel.manifestUri;
+        if (useProxy) {
+          manifestUri = `https://${supabaseProjectId}.supabase.co/functions/v1/cors-proxy?url=${encodeURIComponent(channel.manifestUri)}`;
+        }
+
 
         // Configure DRM if clearKey is provided
         if (channel.clearKey) {
@@ -114,7 +124,7 @@ export const VideoPlayer = ({ channel, onClose }: VideoPlayerProps) => {
         }
 
         // Load the manifest
-        await player.load(channel.manifestUri);
+        await player.load(manifestUri);
         
         // Get available video tracks for quality selection
         const tracks = player.getVariantTracks();
@@ -139,13 +149,13 @@ export const VideoPlayer = ({ channel, onClose }: VideoPlayerProps) => {
 
       } catch (err) {
         console.error('Error loading channel:', err);
-        setError(`Failed to load ${channel.name}`);
+        setError(`Failed to load ${channel.name}. Try toggling the CORS proxy.`);
         setIsLoading(false);
       }
     };
 
     loadChannel();
-  }, [channel]);
+  }, [channel, useProxy]); // Re-run effect when useProxy changes
 
   const togglePlay = () => {
     if (!videoRef.current) return;
@@ -291,10 +301,19 @@ export const VideoPlayer = ({ channel, onClose }: VideoPlayerProps) => {
 
             {/* Error Overlay */}
             {error && (
-              <div className="absolute inset-0 bg-black/80 flex items-center justify-center animate-fade-in">
+              <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center animate-fade-in p-4">
                 <div className="text-center text-white">
                   <p className="text-lg font-semibold mb-2">Playback Error</p>
-                  <p className="text-sm text-muted-foreground">{error}</p>
+                  <p className="text-sm text-muted-foreground mb-4">{error}</p>
+                   <label className="flex items-center justify-center space-x-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={useProxy}
+                      onChange={(e) => setUseProxy(e.target.checked)}
+                      className="form-checkbox h-4 w-4 text-accent bg-gray-700 border-gray-600 focus:ring-accent"
+                    />
+                    <span>Use CORS Proxy</span>
+                  </label>
                 </div>
               </div>
             )}
