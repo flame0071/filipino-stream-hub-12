@@ -6,6 +6,8 @@ export interface Channel {
   logo: string;
   embedUrl?: string;
   category?: string;
+  referer?: string;
+  useProxy?: boolean;
   hidden?: boolean;
   youtubeChannelId?: string; // For detecting multiple streams
   hasMultipleStreams?: boolean; // Flag to indicate if channel has multiple streams
@@ -38,9 +40,9 @@ export const channels: Channel[] = [
   logo: 'https://api.discovery.com/v1/images/5bc91c366b66d1494068339e?aspectRatio=1x1&width=192&key=3020a40c2356a645b4b4'
 }, {
   name: 'Animax',
-  manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_animax_sd_new/default/index.mpd',
+  manifestUri: 'https://animax.b-cdn.net/mirror/animax/static.mpd',
   clearKey: {
-    '92032b0e41a543fb9830751273b8debd': '03f8b65e2af785b10d6634735dbe6c11'
+    '8421c9bc0b5241e59fe4377405a5305e': 'a8570f08dd26e5210041d85d7a84d6f4'
   },
   type: 'mpd',
   logo: 'https://i.imgur.com/VLlyHhT.png'
@@ -107,11 +109,6 @@ export const channels: Channel[] = [
   },
   type: 'mpd',
   logo: 'https://th.bing.com/th/id/OIP.ayx_C9FL75IKjIl408wLagHaFj?rs=1&pid=ImgDetMain'
-}, {
-  name: 'BOOMERANG',
-  manifestUri: 'https://fl3.moveonjoy.com/BOOMERANG/index.m3u8',
-  type: 'hls',
-  logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Boomerang_2014_logo.svg/1200px-Boomerang_2014_logo.svg.png'
 }, {
   name: 'BUKO',
   manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_buko_sd/default/index.mpd',
@@ -264,7 +261,7 @@ export const channels: Channel[] = [
   logo: 'https://logos-world.net/wp-content/uploads/2020/12/DreamWorks-Animation-Logo.png'
 }, {
  name: 'ESPN',
-  manifestUri: 'https://gtv.fflame143.workers.dev/stream.m3u8',
+  manifestUri: 'https://iptvproxy-five.vercel.app/api/hls?url=http://41.205.93.154/ESPN/index.m3u8',
   type: 'hls',
   logo: 'https://th.bing.com/th/id/OIP.X0rfjwnmj1p_6q6OiYJS3wHaEK?rs=1&pid=ImgDetMain'
 }, {
@@ -436,7 +433,7 @@ name: 'GMA (Youtube Stream)',
   type: 'mpd',
   logo: 'https://th.bing.com/th/id/OIP.ix5ReWijxZg8uPcKrk2GHwHaGd?rs=1&pid=ImgDetMain'
 }, {
-    name: 'KPlus',
+name: 'KPlus',
   manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/9983/default_ott.mpd',
   clearKey: {
     'aa48b28bd723f91214887df6ed9fad10': 'b5a3a800848120c843ae0fa68c09c261'
@@ -466,9 +463,9 @@ name: 'GMA (Youtube Stream)',
   logo: 'https://i.imgur.com/5G72qjx.png'
 }, {
   name: 'MovieSphere',
-  manifestUri: 'https://moviesphereuk-samsunguk.amagi.tv/playlist.m3u8',
+  manifestUri: 'https:\\jmp2.uk\rok-b5cde121f98257329346020e2a60295a.m3u8',
   type: 'hls',
-  logo: 'https://yt3.googleusercontent.com/R4AIm13f3RZ5CPAFWuU8DRmpmtj6bne2S4n1K3RPvoJu3Nu5hpgbWcfD0VGMlz8CPPEJtN2T_g=s900-c-k-c0x00ffffff-no-rj'
+  logo: 'https://mb.cision.com/Public/21926/3735591/a45b959f31d12b56_org.jpg'
 }, {
   name: 'MPTV',
   manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_mptv/default/index.mpd',
