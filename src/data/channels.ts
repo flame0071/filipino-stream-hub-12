@@ -9,6 +9,7 @@ export interface Channel {
   hidden?: boolean;
   youtubeChannelId?: string; // For detecting multiple streams
   hasMultipleStreams?: boolean; // Flag to indicate if channel has multiple streams
+  referer?: string;
 }
 
 export const channels: Channel[] = [
