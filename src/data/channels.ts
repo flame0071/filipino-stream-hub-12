@@ -6,8 +6,6 @@ export interface Channel {
   logo: string;
   embedUrl?: string;
   category?: string;
-  referer?: string;
-  useProxy?: boolean;
   hidden?: boolean;
   youtubeChannelId?: string; // For detecting multiple streams
   hasMultipleStreams?: boolean; // Flag to indicate if channel has multiple streams
