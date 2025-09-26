@@ -436,6 +436,14 @@ name: 'GMA (Youtube Stream)',
   type: 'mpd',
   logo: 'https://th.bing.com/th/id/OIP.ix5ReWijxZg8uPcKrk2GHwHaGd?rs=1&pid=ImgDetMain'
 }, {
+    name: 'KPlus',
+  manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/9983/default_ott.mpd',
+  clearKey: {
+    'aa48b28bd723f91214887df6ed9fad10': 'b5a3a800848120c843ae0fa68c09c261'
+  },
+  type: 'mpd',
+  logo: 'https://tse4.mm.bing.net/th/id/OIP.esJMNcht-1gASl36YXkaZwHaEK?rs=1&pid=ImgDetMain&o=7&rm=3'
+}, {
   name: 'Lifetime',
   manifestUri: 'https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/dr_lifetime/default/index.mpd',
   clearKey: {
