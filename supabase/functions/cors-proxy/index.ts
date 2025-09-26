@@ -23,7 +23,14 @@ serve(async (req) => {
   }
 
   try {
-    const response = await fetch(streamUrl);
+    // Ito ang mga bagong headers na idinagdag
+    const requestHeaders = {
+      'Origin': 'https://www.bilibili.tv',
+      'Referer': 'https://www.bilibili.tv/',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'
+    };
+
+    const response = await fetch(streamUrl, { headers: requestHeaders }); // Ginamit natin ang mga bagong headers dito
 
     if (!response.ok) {
       return new Response(response.body, {
