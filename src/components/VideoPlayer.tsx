@@ -122,14 +122,22 @@ export const VideoPlayer = ({ channel, onClose }: VideoPlayerProps) => {
 
         if (channel.clearKey) {
           player.configure({ drm: { clearKeys: channel.clearKey } });
-        } else if (channel.widevineUrl) {
-          player.configure({ drm: { servers: { 'com.widevine.alpha': channel.widevineUrl } } });
         }
 
         await player.load(channel.manifestUri);
         
-        setIsLoading(false);
-        videoRef.current?.play();
+        // Listen for the video to actually start playing before hiding loader
+        const video = videoRef.current;
+        if (video) {
+          const onPlaying = () => {
+            setIsLoading(false);
+            video.removeEventListener('playing', onPlaying);
+          };
+          video.addEventListener('playing', onPlaying);
+          video.play().catch(() => setIsLoading(false));
+        } else {
+          setIsLoading(false);
+        }
 
       } catch (err) {
         console.error('Error loading channel:', err);
@@ -179,7 +187,7 @@ export const VideoPlayer = ({ channel, onClose }: VideoPlayerProps) => {
           <div 
             ref={containerRef}
             className="relative w-full h-full"
-            style={{ '--shaka-primary-color': 'hsl(var(--primary))' } as any}
+            style={{ '--shaka-primary-color': 'hsl(var(--primary))', '--shaka-spinner-display': 'none' } as any}
           >
             <video
               ref={videoRef}

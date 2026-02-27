@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      access_codes: {
+        Row: {
+          code: string
+          created_at: string | null
+          duration_hours: number
+          id: number
+          is_used: boolean | null
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          duration_hours: number
+          id?: number
+          is_used?: boolean | null
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          duration_hours?: number
+          id?: number
+          is_used?: boolean | null
+        }
+        Relationships: []
+      }
       api_usage_log: {
         Row: {
           created_at: string
@@ -50,33 +74,36 @@ export type Database = {
       comments: {
         Row: {
           created_at: string
+          creator_username: string
           facebook_link: string | null
           id: string
+          likes: number | null
           message: string
           name: string
           reply_to: string | null
           updated_at: string
-          user_id: string
         }
         Insert: {
           created_at?: string
+          creator_username?: string
           facebook_link?: string | null
           id?: string
+          likes?: number | null
           message: string
           name: string
           reply_to?: string | null
           updated_at?: string
-          user_id: string
         }
         Update: {
           created_at?: string
+          creator_username?: string
           facebook_link?: string | null
           id?: string
+          likes?: number | null
           message?: string
           name?: string
           reply_to?: string | null
           updated_at?: string
-          user_id?: string
         }
         Relationships: [
           {
@@ -93,6 +120,7 @@ export type Database = {
           category: string | null
           clear_key: Json | null
           created_at: string
+          creator_username: string
           embed_url: string | null
           has_multiple_streams: boolean | null
           id: string
@@ -101,13 +129,14 @@ export type Database = {
           name: string
           type: string
           updated_at: string
-          user_id: string
+          widevine_url: string | null
           youtube_channel_id: string | null
         }
         Insert: {
           category?: string | null
           clear_key?: Json | null
           created_at?: string
+          creator_username?: string
           embed_url?: string | null
           has_multiple_streams?: boolean | null
           id?: string
@@ -116,13 +145,14 @@ export type Database = {
           name: string
           type: string
           updated_at?: string
-          user_id: string
+          widevine_url?: string | null
           youtube_channel_id?: string | null
         }
         Update: {
           category?: string | null
           clear_key?: Json | null
           created_at?: string
+          creator_username?: string
           embed_url?: string | null
           has_multiple_streams?: boolean | null
           id?: string
@@ -131,7 +161,7 @@ export type Database = {
           name?: string
           type?: string
           updated_at?: string
-          user_id?: string
+          widevine_url?: string | null
           youtube_channel_id?: string | null
         }
         Relationships: []
@@ -169,6 +199,104 @@ export type Database = {
           thumbnail_url?: string
           title?: string
           video_id?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          read: boolean
+          receiver_id: string
+          sender_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          read?: boolean
+          receiver_id: string
+          sender_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          read?: boolean
+          receiver_id?: string
+          sender_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      playlist_items: {
+        Row: {
+          channel_data: Json
+          channel_logo: string
+          channel_name: string
+          channel_type: string
+          created_at: string
+          id: string
+          playlist_id: string
+          position: number
+        }
+        Insert: {
+          channel_data: Json
+          channel_logo: string
+          channel_name: string
+          channel_type: string
+          created_at?: string
+          id?: string
+          playlist_id: string
+          position?: number
+        }
+        Update: {
+          channel_data?: Json
+          channel_logo?: string
+          channel_name?: string
+          channel_type?: string
+          created_at?: string
+          id?: string
+          playlist_id?: string
+          position?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "playlist_items_playlist_id_fkey"
+            columns: ["playlist_id"]
+            isOneToOne: false
+            referencedRelation: "playlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      playlists: {
+        Row: {
+          created_at: string
+          creator_username: string
+          description: string | null
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          creator_username?: string
+          description?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          creator_username?: string
+          description?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -358,10 +486,7 @@ export type Database = {
         }
         Returns: boolean
       }
-      is_admin_or_moderator: {
-        Args: { _user_id: string }
-        Returns: boolean
-      }
+      is_admin_or_moderator: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
