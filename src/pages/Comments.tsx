@@ -14,7 +14,7 @@ interface Comment {
   name: string;
   message: string;
   created_at: string;
-  user_id: string;
+  creator_username: string;
   reply_to?: string | null;
   facebook_link?: string | null;
   replies?: Comment[];
@@ -98,7 +98,7 @@ const Comments = () => {
   const loadComments = async () => {
     const { data, error } = await supabase
       .from('comments')
-      .select('id, name, message, created_at, user_id, reply_to, facebook_link')
+      .select('id, name, message, created_at, creator_username, reply_to, facebook_link')
       .order('created_at', { ascending: false });
 
     if (!error && data) {
@@ -206,7 +206,7 @@ const Comments = () => {
       const insertData: any = {
         name: displayName,
         message: message.trim(),
-        user_id: user.id,
+        creator_username: user.email || 'anonymous',
       };
 
       if (facebookLink.trim()) {
@@ -280,19 +280,8 @@ const Comments = () => {
 
   // Debug function to check if user can delete
   const canDeleteComment = (comment: Comment) => {
-    const isOwnComment = user && comment.user_id === user.id;
+    const isOwnComment = user && comment.creator_username === user.email;
     const isAdminOrModerator = userRole && (userRole.role === 'admin' || userRole.role === 'moderator');
-    
-    console.log('Delete permission check:', {
-      commentId: comment.id,
-      userId: user?.id,
-      commentUserId: comment.user_id,
-      userRole: userRole?.role,
-      isOwnComment,
-      isAdminOrModerator,
-      canDelete: isOwnComment || isAdminOrModerator
-    });
-    
     return isOwnComment || isAdminOrModerator;
   };
 

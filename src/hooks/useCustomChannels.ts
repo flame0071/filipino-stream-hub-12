@@ -201,7 +201,7 @@ export const useCustomChannels = () => {
           .from('custom_channels')
           .delete()
           .eq('name', channelName)
-          .eq('user_id', session.user.id);
+          .eq('creator_username', session.user.email || '');
 
         if (error) {
           throw error;
