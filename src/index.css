@@ -174,3 +174,9 @@ All colors MUST be HSL.
     transition: var(--transition-spring);
   }
 }
+
+/* Hide Shaka Player's built-in buffering spinner (we use our own) */
+.shaka-spinner-container,
+.shaka-buffering-spinner {
+  display: none !important;
+}
